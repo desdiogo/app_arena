@@ -4,14 +4,14 @@ namespace App\Actions\Numbers;
 
 use App\Traits\RedirectResponseBack;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Lorisleiva\Actions\Concerns\AsAction;
-use App\Http\Requests\Numbers\CreateOrUpdateNumberRequest;
 
-class UpdateNumberAction
+class DestroyNumberAction
 {
     use AsAction, RedirectResponseBack;
 
-    public function handle(CreateOrUpdateNumberRequest $request, int $id): RedirectResponse
+    public function handle(Request $request, int $id): RedirectResponse
     {
         $customer = $request->user()
             ->customer()
@@ -23,9 +23,7 @@ class UpdateNumberAction
             return $this->error();
         }
 
-        $number->update([
-            'number' => $request->input('number')
-        ]);
+        $number->delete();
         return $this->success();
     }
 }

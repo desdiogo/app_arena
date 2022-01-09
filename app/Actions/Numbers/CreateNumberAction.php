@@ -2,12 +2,12 @@
 
 namespace App\Actions\Numbers;
 
-use App\Actions\PreferenceNumbers\CreatePreferenceNumberAction;
-use App\Http\Requests\Numbers\CreateOrUpdateNumberRequest;
+use Illuminate\Support\Facades\DB;
 use App\Traits\RedirectResponseBack;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
+use App\Http\Requests\Numbers\CreateOrUpdateNumberRequest;
+use App\Actions\PreferenceNumbers\CreatePreferenceNumberAction;
 
 class CreateNumberAction
 {
@@ -19,7 +19,7 @@ class CreateNumberAction
      */
     public function handle(CreateOrUpdateNumberRequest $request): RedirectResponse
     {
-        $customer = $request->user()->customer()->find($request->input('id'));
+        $customer = $request->user()->customer()->find($request->input('customer_id'));
 
         if(!$customer) {
             return $this->error();
@@ -27,7 +27,9 @@ class CreateNumberAction
 
         try {
             DB::beginTransaction();
-            $number = $customer->number()->create($request->all());
+            $number = $customer->number()->create([
+                'number' => $request->input('number')
+            ]);
             CreatePreferenceNumberAction::run($number);
             DB::commit();
 

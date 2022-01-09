@@ -13,12 +13,12 @@ class CreatePreferenceNumberAction
     {
         $number->preference()->create([
             'name' => 'auto_attendant',
-            'value' => 1
+            'value' => true
         ]);
 
         $number->preference()->create([
             'name' => 'voicemail_enabled',
-            'value' => 1
+            'value' => true
         ]);
     }
 }

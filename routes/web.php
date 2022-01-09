@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\NumberController;
-use App\Http\Controllers\NumberPreferenceController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Controllers\NumberController;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NumberPreferenceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,19 +18,10 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::get('/', [WelcomeController::class, 'index']);
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('customer', CustomerController::class)
         ->only([
@@ -45,6 +36,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         ->only([
             'store',
             'update',
+            'destroy'
         ]);
 
     Route::resource('number_preference', NumberPreferenceController::class)

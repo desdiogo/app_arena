@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\PreferenceNumbers;
 
+use Illuminate\Http\Request;
 use App\Traits\RedirectResponseBack;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Lorisleiva\Actions\Concerns\AsAction;
 
-class UpdateNumberPreferenceAction
+class UpdatePreferenceNumberAction
 {
     use AsAction, RedirectResponseBack;
 

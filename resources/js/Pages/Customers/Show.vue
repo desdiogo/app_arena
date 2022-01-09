@@ -22,7 +22,7 @@
               >
                 Edit
               </jet-button>
-              <jet-button @click="destroy" type="button">Delete</jet-button>
+              <jet-button @click="destroyCustomer" type="button">Delete</jet-button>
             </div>
           </div>
           <div class="border-t-2 border-gray-400 pt-2">
@@ -52,7 +52,8 @@
           <template v-for="number in numbers" :key="number.id">
             <div class="pb-2">
               <div class="flex justify-end border-t-2 border-gray-400 pt-2">
-                <jet-button @click="showDialogNumber(number)" type="button">Edit</jet-button>
+                <jet-button @click="showDialogNumber(number)" type="button" class="mr-2">Edit</jet-button>
+                <jet-button @click="destroyCustomer(number)" type="button">Delete</jet-button>
               </div>
               <details>
                 <summary>
@@ -63,7 +64,11 @@
                 <template v-for="preference in number.preference" :key="preference.id">
                   <div>
                     <label class="inline-flex items-center">
-                      <input type="checkbox" :checked="preference.value" @change="changePreferences($event, preference, number)">
+                      <input
+                        type="checkbox"
+                        :checked="preference.value"
+                        @change="changePreferences($event, preference, number)"
+                      >
                       <span class="ml-2">{{ startCase(preference.name) }}</span>
                     </label>
                   </div>
@@ -139,7 +144,22 @@ export default defineComponent({
       number.value = null
     }
 
-    function destroy() {
+    function destroyCustomer(number) {
+      const formNumber = useForm({
+        customer_id: props.customer.id
+      })
+      formNumber.delete(route('number.destroy', number.id), {
+        onSuccess: () => {
+          if (flash.value.error) {
+            return alert.error(flash.value.error)
+          }
+
+          return alert.success(flash.value.success)
+        }
+      })
+    }
+
+    function destroyNumber() {
       form.delete(route('customer.destroy', props.customer.id), {
         onSuccess: () => {
           if (flash.value.error) {
@@ -178,7 +198,7 @@ export default defineComponent({
       show,
       number,
       newNumber,
-      destroy,
+      destroyCustomer,
       startCase,
       changePreferences,
       showDialogNumber,

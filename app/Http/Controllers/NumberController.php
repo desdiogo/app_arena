@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Numbers\CreateNumberAction;
-use App\Actions\Numbers\UpdateNumberAction;
-use App\Models\Number;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use App\Actions\Numbers\CreateNumberAction;
+use App\Actions\Numbers\UpdateNumberAction;
+use App\Actions\Numbers\DestroyNumberAction;
 use App\Http\Requests\Numbers\CreateOrUpdateNumberRequest;
 
 class NumberController extends Controller
@@ -38,11 +38,13 @@ class NumberController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Number  $number
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @param Request $request
+     *
+     * @return RedirectResponse
      */
-    public function destroy(Number $number)
+    public function destroy(int $id, Request $request): RedirectResponse
     {
-        //
+        return DestroyNumberAction::run($request, $id);
     }
 }

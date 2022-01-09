@@ -532,7 +532,22 @@ __webpack_require__.r(__webpack_exports__);
       number.value = null;
     }
 
-    function destroy() {
+    function destroyCustomer(number) {
+      var formNumber = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_5__.useForm)({
+        customer_id: props.customer.id
+      });
+      formNumber["delete"](route('number.destroy', number.id), {
+        onSuccess: function onSuccess() {
+          if (flash.value.error) {
+            return _core_alert__WEBPACK_IMPORTED_MODULE_6__.alert.error(flash.value.error);
+          }
+
+          return _core_alert__WEBPACK_IMPORTED_MODULE_6__.alert.success(flash.value.success);
+        }
+      });
+    }
+
+    function destroyNumber() {
       form["delete"](route('customer.destroy', props.customer.id), {
         onSuccess: function onSuccess() {
           if (flash.value.error) {
@@ -570,7 +585,7 @@ __webpack_require__.r(__webpack_exports__);
       show: show,
       number: number,
       newNumber: newNumber,
-      destroy: destroy,
+      destroyCustomer: destroyCustomer,
       startCase: startCase,
       changePreferences: changePreferences,
       showDialogNumber: showDialogNumber,
@@ -2063,23 +2078,25 @@ var _hoisted_18 = {
 
 var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Edit");
 
-var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Delete");
+
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "font-semibold"
 }, "Number: ", -1
 /* HOISTED */
 );
 
-var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "font-semibold py-2"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Preferences")], -1
 /* HOISTED */
 );
 
-var _hoisted_22 = {
+var _hoisted_23 = {
   "class": "inline-flex items-center"
 };
-var _hoisted_23 = ["checked", "onChange"];
-var _hoisted_24 = {
+var _hoisted_24 = ["checked", "onChange"];
+var _hoisted_25 = {
   "class": "ml-2"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -2114,7 +2131,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         /* STABLE */
 
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_button, {
-        onClick: _ctx.destroy,
+        onClick: _ctx.destroyCustomer,
         type: "button"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -2149,7 +2166,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           onClick: function onClick($event) {
             return _ctx.showDialogNumber(number);
           },
-          type: "button"
+          type: "button",
+          "class": "mr-2"
         }, {
           "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
             return [_hoisted_19];
@@ -2159,12 +2177,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
         }, 1032
         /* PROPS, DYNAMIC_SLOTS */
-        , ["onClick"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("details", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("summary", null, [_hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(number.number), 1
+        , ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_button, {
+          onClick: function onClick($event) {
+            return _ctx.destroyCustomer(number);
+          },
+          type: "button"
+        }, {
+          "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+            return [_hoisted_20];
+          }),
+          _: 2
+          /* DYNAMIC */
+
+        }, 1032
+        /* PROPS, DYNAMIC_SLOTS */
+        , ["onClick"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("details", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("summary", null, [_hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(number.number), 1
         /* TEXT */
-        )]), _hoisted_21, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(number.preference, function (preference) {
+        )]), _hoisted_22, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(number.preference, function (preference) {
           return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
             key: preference.id
-          }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+          }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
             type: "checkbox",
             checked: preference.value,
             onChange: function onChange($event) {
@@ -2172,7 +2204,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }
           }, null, 40
           /* PROPS, HYDRATE_EVENTS */
-          , _hoisted_23), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.startCase(preference.name)), 1
+          , _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.startCase(preference.name)), 1
           /* TEXT */
           )])]);
         }), 128
