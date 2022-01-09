@@ -748,7 +748,7 @@ var _hoisted_3 = {
   "class": "mt-4"
 };
 var _hoisted_4 = {
-  "class": "flex flex-row justify-end px-6 py-4 bg-gray-100 text-right"
+  "class": "flex flex-row justify-end px-2 py-2 bg-gray-100 text-right"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_modal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("modal");
