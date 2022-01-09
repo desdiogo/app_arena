@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Numbers\CreateNumberAction;
+use App\Actions\Numbers\UpdateNumberAction;
 use App\Models\Number;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -23,37 +24,15 @@ class NumberController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Number  $number
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Number $number)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Number  $number
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Number $number)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param  \App\Models\Number  $number
-     * @return \Illuminate\Http\Response
+     * @param CreateOrUpdateNumberRequest $request
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function update(Request $request, Number $number)
+    public function update(CreateOrUpdateNumberRequest $request, int $id): RedirectResponse
     {
-        //
+        return UpdateNumberAction::run($request, $id);
     }
 
     /**

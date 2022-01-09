@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import {computed, defineComponent, ref} from 'vue'
+import { computed, defineComponent, watch } from 'vue'
 import JetDialogModal from '@/Jetstream/DialogModal.vue'
 import JetLabel from '@/Jetstream/Label.vue'
 import JetLabelError from '@/Jetstream/LabelError.vue'
@@ -60,14 +60,14 @@ export default defineComponent({
   emits: ['close'],
 
   setup(props, { emit }) {
-    const number = props.number
     const customer = props.customer
     const page = usePage()
     const flash = computed(() => page.props.value.flash)
 
+
     const form = useForm({
       id: customer.id,
-      number: number ? number.number : '',
+      number: null,
     })
 
     function newCustomer() {
@@ -90,18 +90,27 @@ export default defineComponent({
           }
 
           emit('close')
+          form.reset()
           return alert.success(flash.value.success)
         }
       })
     }
 
     function submit() {
-      if(!number) {
-        return newCustomer()
+      if(props.number) {
+        return updateCustomer()
       }
 
-      return updateCustomer()
+      return newCustomer()
     }
+
+    watch(() => props.number, (number) => {
+      if(number) {
+        return form.number = number.number
+      }
+
+      form.reset()
+    })
 
     return {
       form,

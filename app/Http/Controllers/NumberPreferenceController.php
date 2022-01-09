@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\UpdateNumberPreferenceAction;
 use App\Models\NumberPreference;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class NumberPreferenceController extends Controller
@@ -30,7 +32,7 @@ class NumberPreferenceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -63,13 +65,13 @@ class NumberPreferenceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\NumberPreference  $numberPreference
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function update(Request $request, NumberPreference $numberPreference)
+    public function update(Request $request, int $id): RedirectResponse
     {
-        //
+        return UpdateNumberPreferenceAction::run($request, $id);
     }
 
     /**

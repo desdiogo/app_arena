@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\NumberController;
+use App\Http\Controllers\NumberPreferenceController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -43,5 +44,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('number', NumberController::class)
         ->only([
             'store',
+            'update',
+        ]);
+
+    Route::resource('number_preference', NumberPreferenceController::class)
+        ->only([
+            'update',
         ]);
 });

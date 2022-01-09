@@ -1,9 +1,9 @@
 <template>
-  <app-layout :title="`Customers #${customer.name}`">
+  <app-layout :title="`Customer #${customer.name}`">
     <template #header>
       <div class="flex justify-between">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-          Customer #{{ customer.name }}
+          #{{ customer.name }}
         </h2>
       </div>
     </template>
@@ -46,28 +46,24 @@
               Numbers
             </h6>
             <div>
-              <jet-button @click="show.number = true" type="button">New</jet-button>
+              <jet-button @click="newNumber" type="button">New</jet-button>
             </div>
           </div>
           <template v-for="number in numbers" :key="number.id">
             <div class="pb-2">
-              <div class="flex justify-between border-t-2 border-gray-400 pt-2">
-                <p>
-                  <span class="font-semibold">#: </span>
-                  <span>{{ number.id }}</span>
-                </p>
-                <jet-button @click="show.number = true" type="button">Edit</jet-button>
+              <div class="flex justify-end border-t-2 border-gray-400 pt-2">
+                <jet-button @click="showDialogNumber(number)" type="button">Edit</jet-button>
               </div>
               <details>
                 <summary>
                   <span class="font-semibold">Number: </span>
                   <span>{{ number.number }}</span>
                 </summary>
-                <p class="font-semibold pb-2"><strong>Preferences</strong></p>
+                <p class="font-semibold py-2"><strong>Preferences</strong></p>
                 <template v-for="preference in number.preference" :key="preference.id">
                   <div>
                     <label class="inline-flex items-center">
-                      <input type="checkbox" :checked="preference.value">
+                      <input type="checkbox" :checked="preference.value" @change="changePreferences($event, preference, number)">
                       <span class="ml-2">{{ startCase(preference.name) }}</span>
                     </label>
                   </div>
@@ -80,17 +76,18 @@
     </div>
   </app-layout>
   <dialog-customer :show="show.customer" :customer="customer" @close="show.customer = false"/>
-  <dialog-number :show="show.number" :customer="customer" @close="show.number = false"/>
+  <dialog-number :show="show.number" :number="number" :customer="customer" @close="hideDialogNumber"/>
 </template>
 
 <script>
-import {computed, defineComponent, ref, onMounted} from 'vue'
+import {computed, defineComponent, ref } from 'vue'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import JetButton from '@/Jetstream/Button.vue'
 import DialogCustomer from '@/Shared/DialogCustomer.vue'
 import DialogNumber from '@/Shared/DialogNumber.vue'
 import {useForm, usePage} from "@inertiajs/inertia-vue3";
 import {alert} from "@/core/alert";
+import { toast } from "@/core/toast";
 import _ from 'lodash'
 
 export default defineComponent({
@@ -118,12 +115,29 @@ export default defineComponent({
       number: false,
     })
 
+    const number = ref(null)
+
     const page = usePage()
     const flash = computed(() => page.props.value.flash)
 
     const form = useForm({
       id: props.customer.id
     })
+
+    function newNumber() {
+      number.value = null
+      show.value.number = true
+    }
+
+    function showDialogNumber(item) {
+      number.value = item
+      show.value.number = true
+    }
+
+    function hideDialogNumber() {
+      show.value.number = false
+      number.value = null
+    }
 
     function destroy() {
       form.delete(route('customer.destroy', props.customer.id), {
@@ -141,14 +155,34 @@ export default defineComponent({
       return _.startCase(string)
     }
 
-    onMounted(() => {
-      console.log(props.numbers)
-    })
+    function changePreferences(event, preference, number) {
+      const formPrerence = useForm({
+        customer_id: props.customer.id,
+        number_id: number.id,
+        name: preference.name,
+        value: event.target.checked
+      })
+
+      formPrerence.put(route('number_preference.update', preference.id), {
+        onSuccess: () => {
+          if (flash.value.error) {
+            return toast.error(flash.value.error)
+          }
+
+          return toast.success(flash.value.success)
+        }
+      })
+    }
 
     return {
       show,
+      number,
+      newNumber,
       destroy,
-      startCase
+      startCase,
+      changePreferences,
+      showDialogNumber,
+      hideDialogNumber
     }
   }
 })

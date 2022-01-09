@@ -46,7 +46,7 @@ class CustomerController extends Controller
      */
     public function show(int $id, Request $request): InertiaResponse
     {
-        $customer = $request->user()->customer()->findOrFail($id);
+        $customer = $request->user()->customer()->with(['number.preference'])->findOrFail($id);
 
         return Inertia::render('Customers/Show', [
             'customer' => $customer,
