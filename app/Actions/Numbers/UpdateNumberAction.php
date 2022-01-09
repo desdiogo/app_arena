@@ -15,7 +15,7 @@ class UpdateNumberAction
     {
         $customer = $request->user()
             ->customer()
-            ->find($request->input('id'));
+            ->find($request->input('customer_id'));
 
         $number = $customer->number()->find($id);
 
@@ -23,7 +23,9 @@ class UpdateNumberAction
             return $this->error();
         }
 
-        $number->update($request->all());
+        $number->update([
+            'number' => $request->input('number')
+        ]);
         return $this->success();
     }
 }

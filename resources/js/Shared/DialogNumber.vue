@@ -17,7 +17,7 @@
         <button @click.prevent="submit" type="submit" class="w-full inline-flex justify-center uppercase rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
           Save
         </button>
-        <button @click="$emit('close')" type="button" class="mt-3 w-full inline-flex justify-center uppercase rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+        <button @click="close" type="button" class="mt-3 w-full inline-flex justify-center uppercase rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
           Cancel
         </button>
       </div>
@@ -66,7 +66,7 @@ export default defineComponent({
 
 
     const form = useForm({
-      id: customer.id,
+      customer_id: customer.id,
       number: null,
     })
 
@@ -104,6 +104,11 @@ export default defineComponent({
       return newCustomer()
     }
 
+    function close() {
+      emit('close')
+      form.clearErrors()
+    }
+
     watch(() => props.number, (number) => {
       if(number) {
         return form.number = number.number
@@ -114,7 +119,8 @@ export default defineComponent({
 
     return {
       form,
-      submit
+      submit,
+      close
     }
   }
 })

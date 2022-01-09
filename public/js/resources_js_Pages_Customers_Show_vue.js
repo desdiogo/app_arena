@@ -668,9 +668,16 @@ __webpack_require__.r(__webpack_exports__);
       return updateCustomer();
     }
 
+    function close() {
+      emit('close');
+      form.clearErrors();
+      form.reset();
+    }
+
     return {
       form: form,
-      submit: submit
+      submit: submit,
+      close: close
     };
   }
 }));
@@ -732,7 +739,7 @@ __webpack_require__.r(__webpack_exports__);
       return page.props.value.flash;
     });
     var form = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_5__.useForm)({
-      id: customer.id,
+      customer_id: customer.id,
       number: null
     });
 
@@ -770,6 +777,11 @@ __webpack_require__.r(__webpack_exports__);
       return newCustomer();
     }
 
+    function close() {
+      emit('close');
+      form.clearErrors();
+    }
+
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(function () {
       return props.number;
     }, function (number) {
@@ -781,7 +793,8 @@ __webpack_require__.r(__webpack_exports__);
     });
     return {
       form: form,
-      submit: submit
+      submit: submit,
+      close: close
     };
   }
 }));
@@ -2281,8 +2294,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         type: "submit",
         "class": "w-full inline-flex justify-center uppercase rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
       }, " Save "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        onClick: _cache[3] || (_cache[3] = function ($event) {
-          return _ctx.$emit('close');
+        onClick: _cache[3] || (_cache[3] = function () {
+          return _ctx.close && _ctx.close.apply(_ctx, arguments);
         }),
         type: "button",
         "class": "mt-3 w-full inline-flex justify-center uppercase rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
@@ -2362,8 +2375,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         type: "submit",
         "class": "w-full inline-flex justify-center uppercase rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
       }, " Save "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        onClick: _cache[2] || (_cache[2] = function ($event) {
-          return _ctx.$emit('close');
+        onClick: _cache[2] || (_cache[2] = function () {
+          return _ctx.close && _ctx.close.apply(_ctx, arguments);
         }),
         type: "button",
         "class": "mt-3 w-full inline-flex justify-center uppercase rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
