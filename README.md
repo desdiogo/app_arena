@@ -36,6 +36,7 @@ docker run --rm \
 
 ./vendor/bin/sail up -d
 ./vendor/bin/sail artisan migrate --seed
+./vendor/bin/sail artisan artisan key:generate
 cp .env.example.sail .env
 ```
 
