@@ -49,11 +49,11 @@
               <jet-button @click="newNumber" type="button">New</jet-button>
             </div>
           </div>
-          <template v-for="number in numbers" :key="number.id">
+          <template v-for="number in numbers.data" :key="number.id">
             <div class="pb-2">
               <div class="flex justify-end border-t-2 border-gray-400 pt-2">
                 <jet-button @click="showDialogNumber(number)" type="button" class="mr-2">Edit</jet-button>
-                <jet-button @click="destroyCustomer(number)" type="button">Delete</jet-button>
+                <jet-button @click="destroyNumber(number)" type="button">Delete</jet-button>
               </div>
               <details>
                 <summary>
@@ -76,6 +76,7 @@
               </details>
             </div>
           </template>
+          <jet-pagination :links="numbers.links" class="p-4" />
         </div>
       </div>
     </div>
@@ -88,6 +89,7 @@
 import {computed, defineComponent, ref } from 'vue'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import JetButton from '@/Jetstream/Button.vue'
+import JetPagination from '@/Jetstream/Pagination.vue'
 import DialogCustomer from '@/Shared/DialogCustomer.vue'
 import DialogNumber from '@/Shared/DialogNumber.vue'
 import {useForm, usePage} from "@inertiajs/inertia-vue3";
@@ -100,7 +102,8 @@ export default defineComponent({
     AppLayout,
     JetButton,
     DialogCustomer,
-    DialogNumber
+    DialogNumber,
+    JetPagination
   },
 
   props: {
@@ -109,8 +112,8 @@ export default defineComponent({
       required: true
     },
     numbers: {
-      type: Array,
-      required: true
+      type: Object,
+      default: null
     }
   },
 
@@ -144,11 +147,8 @@ export default defineComponent({
       number.value = null
     }
 
-    function destroyCustomer(number) {
-      const formNumber = useForm({
-        customer_id: props.customer.id
-      })
-      formNumber.delete(route('number.destroy', number.id), {
+    function destroyCustomer() {
+      form.delete(route('customer.destroy', props.customer.id), {
         onSuccess: () => {
           if (flash.value.error) {
             return alert.error(flash.value.error)
@@ -159,8 +159,11 @@ export default defineComponent({
       })
     }
 
-    function destroyNumber() {
-      form.delete(route('customer.destroy', props.customer.id), {
+    function destroyNumber(number) {
+      const formNumber = useForm({
+        customer_id: props.customer.id
+      })
+      formNumber.delete(route('number.destroy', number.id), {
         onSuccess: () => {
           if (flash.value.error) {
             return alert.error(flash.value.error)
@@ -199,6 +202,7 @@ export default defineComponent({
       number,
       newNumber,
       destroyCustomer,
+      destroyNumber,
       startCase,
       changePreferences,
       showDialogNumber,

@@ -11,7 +11,7 @@
       </div>
     </template>
     <div class="py-12">
-      <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
@@ -24,9 +24,6 @@
               </th>
               <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Document
-              </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
               </th>
               <th scope="col" class="relative px-6 py-3">
                 <span class="sr-only">Edit/Delete</span>
@@ -43,9 +40,6 @@
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {{ customer.document }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{ customer.status }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <a
