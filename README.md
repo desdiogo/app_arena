@@ -18,9 +18,10 @@ The project was developed using the following stacks:
 
 ```bash
 composer install
-`php artisan migrate --seed`
-`cp .env.example.local .env`
-`php artisan key:generate
+php artisan migrate --seed
+cp .env.example.local .env
+php artisan key:generate
+yarn dev
 ```
 
 ### Sail
