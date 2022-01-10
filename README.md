@@ -42,6 +42,8 @@ cp .env.example.sail .env
 
 ## Access
 
+Users entered by the seeder the password is 12345678
+
 ### Local
 
 ```bash
